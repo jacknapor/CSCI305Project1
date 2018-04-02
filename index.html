@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>CSCI 305 Project 1</title>
+    
+    <link rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Domine">
+   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+
+     <meta name="viewport" content="width=device-width, initial-scale=1">
+     <link rel="stylesheet"
+      href="style.css">
+      
+  </head>
+  <body>
+    <div class="container pad" >
+      
+      <div class="row">
+        <div class="col-12 head">
+        <h3> Movie Database Browser</h3>
+        </div>
+        <div class="col-12 content">
+        <div><form><p>Enter a Movie Title:</p><input id="Title" type="text"></form></div>
+        <button type="button" onclick="populateField_SearchPt()">Load Pt 1</button>
+        <div id="res"> </div>
+     
+        </div>
+      </div>
+      
+     
+    
+
+    </div>
+    <script>
+function populateField_SearchPt() 
+{
+    var inputId = document.getElementById("Title").value; //we get the user input value and put it in a var
+
+    var xhttp = new XMLHttpRequest();
+    xhttp.open("GET", "dbconnect.php?title=" + inputId, true); // we're passing the hId to the server as a parameter
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            document.getElementById("res").value = this.responseText;
+        }
+    };
+    xhttp.send(); 
+
+}
+</script>
+  </body>
+</html>
+
+
+

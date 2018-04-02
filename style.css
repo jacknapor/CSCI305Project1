@@ -1,0 +1,208 @@
+
+
+body{
+	text-align: center;
+	background-color: #003865;
+	font-family: 'Domine', serif;
+
+}
+
+h1{
+	color:#E87722;
+	font-size: 75px;
+	
+	
+}
+h3{
+	color:#E87722;
+	font-size: 40px;
+	margin-top: 5px;
+	
+}
+h4{
+	color:#E87722;
+	margin-top: 10px;
+	font-size: 25px;
+}
+
+
+
+p{
+	color:#FFA300;
+}
+
+a:visited {
+    color: purple;
+    font-size: 20px;
+}
+
+a{
+    color: #0082BA;
+    font-size: 20px;
+    text-decoration: underline;
+}
+
+li{
+	color:#E87722;
+	list-style-position: inside;
+	margin: 0 auto !important;
+
+	
+}
+ul{
+margin: 0 auto !important;
+padding-left:0;
+}
+
+img{
+width: 25%;
+height: 75%;
+
+
+
+
+}
+
+
+
+
+.project{
+	    border-style: solid;
+    border-color: black;
+    border-width: 1px;
+  
+}
+.heading {
+    margin: 20px 20px 0 0;  
+    
+}
+
+
+
+.samplehead{
+	border-style: solid;
+	border-color: black;
+	border-width:1px;
+	margin-bottom: 20px;
+	color:#E87722;
+	font-size: 40px;
+	background-color: #0082BA;
+
+}
+
+.projs{
+	border-style: solid;
+	border-color: black;
+	border-width:1px;
+	margin-top:40px;
+
+}
+.projtitle{
+	border-style: solid;
+	border-color: black;
+	border-width:1px;
+	margin-top: 0px;
+	margin-bottom: 0px;
+	background-color: 	#228B22;
+}
+
+.projcontainer{
+	display:flex; 
+	flex-wrap:wrap;
+}
+.heading{
+	margin-top: 10px;
+	margin-right: -15px;
+	margin-left: -15px;
+	padding-right: 0px;
+	padding-left: 0px;
+	margin-bottom: 10px;
+	
+
+}
+.info{
+	text-align: left;
+	font-size: 25px;
+
+
+}
+
+.profpic{
+border-radius: 50px; 
+height: 40vh; 
+width: 31vh; 
+max-height: 400px; 
+max-width: 314px; 
+margin-left: auto; 
+margin-right: auto; 
+display: block; 
+min-height: 242px; 
+min-width: 190px;
+margin-top:15px;
+
+}
+.name{
+	margin-top:10px;
+	margin-bottom: 0px;
+	font-size:50px;
+	margin-left: auto; 
+	margin-right: auto; 
+	display: block; 
+	text-shadow: -1.5px 0 black, 0 1.5px black, 1.5px 0 black, 0 -1.5px black;
+	color:white;
+}
+
+.pad{
+	padding-left: 0px;
+	padding-right: 0px;
+
+}
+
+.head{
+	border-style: solid;
+	border-color: black;
+	border-width:1px;
+	margin-top: 0px;
+	margin-bottom: 0px;
+	background-color: 	#007db3;
+
+}
+
+.content{
+	border-style: solid;
+	border-color: black;
+	border-width:1px;
+	margin-top: 0px;
+	margin-bottom: 10px;
+	background-color: 	#002a4d;
+}
+
+.text{
+	margin-top: 10px;
+}
+
+.email{
+font-size:25px;
+margin-bottom:0px;
+
+	margin-left: auto; 
+	margin-right: auto; 
+	display: block; 
+	text-shadow: -1.5px 0 black, 0 1.5px black, 1.5px 0 black, 0 -1.5px black;
+	color:white;
+}
+.bg{
+padding:0px;
+width:100%;
+height:100%;
+background-image: url(bucknell3.jpg);
+background-size:cover;
+   background-repeat: no-repeat;
+background-position-y:bottom;
+  background-position-x:center; 
+
+}
+
+
+
+
