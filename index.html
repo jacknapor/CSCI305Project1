@@ -24,7 +24,8 @@
         <div class="col-12 content">
         <div><form><p>Enter a Movie Title:</p><input id="Title" type="text"></form></div>
         <button type="button" onclick="populateField_SearchPt()">Load Pt 1</button>
-        <div id="res"> </div>
+        <textarea id="SearchBoxPt" textarea name="SearchBoxPt" style="height: 30px; resize: none; width: 600px;">       
+</textarea>
      
         </div>
       </div>
@@ -39,10 +40,10 @@ function populateField_SearchPt()
     var inputId = document.getElementById("Title").value; //we get the user input value and put it in a var
 
     var xhttp = new XMLHttpRequest();
-    xhttp.open("GET", "dbconnect.php?title=" + inputId, true); // we're passing the hId to the server as a parameter
+    xhttp.open("GET", "https://jrn011.github.io/CSCI305Project1/dbconnect.php?title=" + inputId, true); // we're passing the hId to the server as a parameter
     xhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
-            document.getElementById("res").value = this.responseText;
+            document.getElementById("SearchBoxPt").value = this.responseText;
         }
     };
     xhttp.send(); 
