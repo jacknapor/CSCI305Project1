@@ -235,9 +235,19 @@ background-position-y:bottom;
 	border-color: black;
 	border-width:1px;
 	padding:5px;
+	height:100%;
 }
 
 .pdt-5{
 	padding-top:5px;
 	padding-bottom: 5px;
+}
+
+.underlined{
+	text-decoration: underline;
+}
+
+.subtext{
+	font-size:12px;
+
 }

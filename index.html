@@ -20,28 +20,31 @@
       
       <div class="row">
         <div class="col-12 head top">
-        <h3> Movie Database Browser</h3>
+        <h3 class="underlined"> Movie Database Browser</h3>
         </div>
         <div class="col-12 content">
         <div class="row">
         <div class="col-4 section" >
-        <div><form action="javascript:searchTitle();"><p>Enter a Movie Title:</p><input id="Title" type="text"></form></div>
+        <div><form action="javascript:searchTitle();"><p>Search By Movie Title:</p><input id="Title" type="text"></form></div>
         <button class="sub" type="button" onclick="searchTitle()">Search Title</button>
         <div>
         <p style="margin-bottom: 5px;">Show rating statistics?</p>
         <select style="margin-bottom:10px; margin-top:0px;" id="showstats"><option value="yes">Yes</option><option value="no">No</option></select></div></div>
         <div class="col-4 section">
-         <div><form action="javascript:searchGenre();"><p>Enter a genre:</p><input id="genre" type="text"></form></div>	
+         <div><form action="javascript:searchGenre();"><p>Search by Genre:</p><input id="genre" type="text"></form></div>	
          <button class="sub" type="button" onclick="searchGenre()">Search Genre</button>
         </div>
         <div class="col-4 section">
-        <p>Show number of:</p>
-        <select>
-        	<option value="users">Users</option>
-        	<option value="movies">Movies</option>
-        	<option value="ratings">Ratings</option>
-        	<option value="tags">tags</option>
+        <p>Display number of:</p>
+        <div>
+        <select id= "countSelect">
+        	<option value="user">Users</option>
+        	<option value="movie">Movies</option>
+        	<option value="rating">Ratings</option>
+        	<option value="tag">Tags</option>
         </select>
+        </div>
+        <button class="sub" type="button" onclick="giveCount()">Find Total</button>
         	
         </div>
      	</div>
@@ -50,7 +53,7 @@
       </div>
       <div class="row">
       	<div class="col-12 head">
-        <h3> Results</h3>
+        <h3 class="underlined"> Results</h3>
         </div>
         <div class= "col-12 content">
         <ul class="list-unstyled row" id="result"><p class="none col-12">Use the fields above to search the Movie database.</p></ul>
@@ -61,12 +64,55 @@
     
 
     </div>
+
     <script src='js/sql.js'></script>
+
+    
+
     <script>
+    function giveCount(){
+    	var r1= document.getElementById("result");
+    	var p =document.createElement("p");
+  	p.classList.add("none");
+  	p.classList.add("col-12")
+  	p.innerHTML= "Loading..."
+  	while(r1.firstChild){
+  	r1.removeChild(r1.firstChild);
+  }
+  	r1.appendChild(p);
+
+    
+var xhr = new XMLHttpRequest();
+xhr.open('GET', 'https://jrn011.github.io/CSCI305Project1/MovieInfo.db', true);
+xhr.responseType = 'arraybuffer';
+xhr.onload = function(b) {
+var uInt8Array = new Uint8Array(this.response);
+  var db = new SQL.Database(uInt8Array);
+  var item= document.getElementById("countSelect")
+  var res= document.getElementById("result");
+  	console.log("hello!")
+  	var y= db.exec("SELECT COUNT("+item.options[item.selectedIndex].value+"s."+item.options[item.selectedIndex].value+"ID) from "+item.options[item.selectedIndex].value+"s")
+  	console.log(y[0].values[0])
+  	console.log("hello!")
+  	var p3= document.createElement("h4")
+  	p3.classList.add("col-12")
+  	p3.innerHTML="Number of "+ item.options[item.selectedIndex].value+ "s currently in the database: "+ y[0].values[0];
+  	while(res.firstChild){
+  	res.removeChild(res.firstChild);
+  }
+  	res.appendChild(p3)
+
+}
+xhr.send();
+}
+
+
+
     function searchGenre(){
     	var r1= document.getElementById("result");
       var p =document.createElement("p");
   	p.classList.add("none");
+  	p.classList.add("col-12")
   	p.innerHTML= "Loading..."
   	while(r1.firstChild){
   	r1.removeChild(r1.firstChild);
@@ -76,23 +122,40 @@
     var xhr = new XMLHttpRequest();
 xhr.open('GET', 'https://jrn011.github.io/CSCI305Project1/MovieInfo.db', true);
 xhr.responseType = 'arraybuffer';
- console.log("hello")
 xhr.onload = function(z) {
 	var uInt8Array = new Uint8Array(this.response);
   var db = new SQL.Database(uInt8Array);
   var x= document.getElementById("genre").value;
-  var contents= db.exec("SELECT * FROM movies where genres LIKE '%"+x+"%' limit 30");
- 
-   var res= document.getElementById("result");
+  var res= document.getElementById("result");
   while(res.firstChild){
   	res.removeChild(res.firstChild);
   }
-  contents[0].values.forEach((row) => { 
-  	var li =document.createElement("li");
-  	var y= db.exec("SELECT AVG(rating) from ratings, movies where ratings.movieID=movies.movieID and movies.title='"+row[1]+"'")
-  	li.textContent=row[1]+", Genres: "+row[2]+" , Average Rating: "+y[0].values[0];
-  	res.appendChild(li);
-  });
+  if(x.length>0){
+  var contents= db.exec("SELECT * FROM movies where genres LIKE '%"+x+"%' limit 30");
+
+ 
+
+  contents[0].values.forEach((row) => {
+ 
+  var li =document.createElement("li");
+  var d= document.createElement("div");
+  d.classList.add("col-3");
+  d.classList.add("pdt-5");
+  li.classList.add("resbox");
+  console.log(row[1])
+  var y= db.exec("SELECT AVG(rating) from ratings, movies where ratings.movieID=movies.movieID and movies.title='"+row[1].split("'").join("''")+"'")
+
+ 
+  li.innerHTML="<div class='underlined'>"+row[1]+"</div><ul><li class='subtext'>Genres: "+row[2].split("|").join(", ")+"</li><li class='subtext'>Average Rating: "+y[0].values[0].toString().substring(0,3)+"</li></ul>"
+  d.appendChild(li)
+  res.appendChild(d)
+
+  	
+  });}else{ var p =document.createElement("p");
+  	p.classList.add("none");
+  	p.classList.add("col-12");
+  	p.innerHTML= "No results found!"
+  	res.appendChild(p);}
 
 }
 
@@ -115,42 +178,61 @@ xhr.onload = function(z) {
 xhr.open('GET', 'https://jrn011.github.io/CSCI305Project1/MovieInfo.db', true);
 xhr.responseType = 'arraybuffer';
 
+
+
+
 xhr.onload = function(e) {
   var uInt8Array = new Uint8Array(this.response);
   var db = new SQL.Database(uInt8Array);
   var t=document.getElementById("Title").value;
+
   var contents=null;
   if(t.includes("*")){
   	var x= t.split("*",1)
-  	contents= db.exec("SELECT * FROM movies where title LIKE '"+x+"%'");
+  	var b= x[0].split("'").join("''")
+  	console.log(b)
+  	
+  	contents= db.exec("SELECT * FROM movies where title LIKE '%"+b+"%' limit 50");
   }else{
-  contents = db.exec("SELECT * FROM movies WHERE title LIKE '"+t+" (%'");}
+  	
+  	console.log(t)
+  	var b= x[0].split("'").join("''")
+  contents = db.exec("SELECT * FROM movies WHERE title LIKE '"+b+" (%' limit 50");}
   var res= document.getElementById("result");
   while(res.firstChild){
   	res.removeChild(res.firstChild);
   }
   console.log(contents)
   if(contents.length>0){
+  	var count=0;
   contents[0].values.forEach((row) => { 
+
   var li =document.createElement("li");
   var stats= document.getElementById("showstats");
+  count=count+1;
+
+   
   if(stats.options[stats.selectedIndex].value==="no"){
   	  var nd= document.createElement("div");
 	nd.classList.add("col-3")
 	nd.classList.add("pdt-5")
 	li.classList.add("resbox")
-  	  li.textContent=row[1];
+  	  li.innerHTML="<div class='underlined'>"+row[1]+"</div>";
   	  nd.appendChild(li);
   res.appendChild(nd);
 }else{ 
-	y= db.exec("SELECT COUNT(ratingID) from ratings, movies where ratings.movieID=movies.movieID and movies.title='"+row[1]+"'")
+	y= db.exec("SELECT COUNT(ratingID) from ratings, movies where ratings.movieID=movies.movieID and movies.title='"+row[1].replace(/'/g,"''") +"'")
+	var y2= db.exec("SELECT rating from ratings, movies where ratings.movieID=movies.movieID and movies.title='"+row[1].replace(/'/g,"''") +"' order by rating desc limit 1")
+	var y3= db.exec("SELECT rating from ratings, movies where ratings.movieID=movies.movieID and movies.title='"+row[1].replace(/'/g,"''") +"' order by rating asc limit 1")
+	var y4= db.exec("SELECT AVG(rating) from ratings, movies where ratings.movieID=movies.movieID and movies.title='"+row[1].replace(/'/g,"''") +"'")
 	console.log(y)
 	var nd= document.createElement("div");
 	nd.classList.add("col-3")
 	nd.classList.add("pdt-5")
 	li.classList.add("resbox")
-	li.innerHTML="<div>"+row[1]+"</div>"+"<div>"+"Number of ratings: "+ y[0].values[0]+"</div>"
+	li.innerHTML="<div class='underlined'>"+row[1]+"</div><ul>"+"<li class='subtext'>"+"Average Rating: "+ y4[0].values[0].toString().substring(0,3)+"</li>"+ "<li class='subtext'>"+"Number of ratings: "+ y[0].values[0]+"</li><li class='subtext'>Highest Rating: "+y2[0].values[0]+"</li><li class='subtext'>Lowest Rating: "+y3[0].values[0]+"</li></ul>"
 	nd.appendChild(li);
+
 	//li.textContent=row[1]+ "Number of ratings: "+y[0].values[0];
   res.appendChild(nd);}
  
@@ -166,7 +248,8 @@ xhr.onload = function(e) {
   
  
 };
-xhr.send();}
+xhr.send();
+}
 
 
 </script>
