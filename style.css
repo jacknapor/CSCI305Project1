@@ -181,6 +181,7 @@ margin-top:15px;
 	margin-top: 10px;
 }
 
+
 .email{
 font-size:25px;
 margin-bottom:0px;
@@ -203,6 +204,40 @@ background-position-y:bottom;
 
 }
 
+.sub{
+
+	margin-top:10px;
+	margin-bottom:10px;
+}
+
+.none{
+
+	font-size:30px;
+	margin-bottom: 5px;
+	margin-top:5px;
+}
 
 
 
+.top{
+	margin-top:10px!important;
+}
+
+.section{
+	border-style: solid;
+	border-color: black;
+	border-width:1px;
+	padding: 0px!important;
+}
+
+.resbox{
+	border-style: solid;
+	border-color: black;
+	border-width:1px;
+	padding:5px;
+}
+
+.pdt-5{
+	padding-top:5px;
+	padding-bottom: 5px;
+}

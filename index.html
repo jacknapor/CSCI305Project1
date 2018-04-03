@@ -12,21 +12,48 @@
      <meta name="viewport" content="width=device-width, initial-scale=1">
      <link rel="stylesheet"
       href="style.css">
+      <script src='js/sql.js'></script>
       
   </head>
   <body>
     <div class="container pad" >
       
       <div class="row">
-        <div class="col-12 head">
+        <div class="col-12 head top">
         <h3> Movie Database Browser</h3>
         </div>
         <div class="col-12 content">
-        <div><form><p>Enter a Movie Title:</p><input id="Title" type="text"></form></div>
-        <button type="button" onclick="populateField_SearchPt()">Load Pt 1</button>
-        <textarea id="SearchBoxPt" textarea name="SearchBoxPt" style="height: 30px; resize: none; width: 600px;">       
-</textarea>
-     
+        <div class="row">
+        <div class="col-4 section" >
+        <div><form action="javascript:searchTitle();"><p>Enter a Movie Title:</p><input id="Title" type="text"></form></div>
+        <button class="sub" type="button" onclick="searchTitle()">Search Title</button>
+        <div>
+        <p style="margin-bottom: 5px;">Show rating statistics?</p>
+        <select style="margin-bottom:10px; margin-top:0px;" id="showstats"><option value="yes">Yes</option><option value="no">No</option></select></div></div>
+        <div class="col-4 section">
+         <div><form action="javascript:searchGenre();"><p>Enter a genre:</p><input id="genre" type="text"></form></div>	
+         <button class="sub" type="button" onclick="searchGenre()">Search Genre</button>
+        </div>
+        <div class="col-4 section">
+        <p>Show number of:</p>
+        <select>
+        	<option value="users">Users</option>
+        	<option value="movies">Movies</option>
+        	<option value="ratings">Ratings</option>
+        	<option value="tags">tags</option>
+        </select>
+        	
+        </div>
+     	</div>
+        </div>
+        <div id="dis"></div>
+      </div>
+      <div class="row">
+      	<div class="col-12 head">
+        <h3> Results</h3>
+        </div>
+        <div class= "col-12 content">
+        <ul class="list-unstyled row" id="result"><p class="none col-12">Use the fields above to search the Movie database.</p></ul>
         </div>
       </div>
       
@@ -34,21 +61,114 @@
     
 
     </div>
+    <script src='js/sql.js'></script>
     <script>
-function populateField_SearchPt() 
-{
-    var inputId = document.getElementById("Title").value; //we get the user input value and put it in a var
+    function searchGenre(){
+    	var r1= document.getElementById("result");
+      var p =document.createElement("p");
+  	p.classList.add("none");
+  	p.innerHTML= "Loading..."
+  	while(r1.firstChild){
+  	r1.removeChild(r1.firstChild);
+  }
+  	r1.appendChild(p);
 
-    var xhttp = new XMLHttpRequest();
-    xhttp.open("GET", "https://jrn011.github.io/CSCI305Project1/dbconnect.php?title=" + inputId, true); // we're passing the hId to the server as a parameter
-    xhttp.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) {
-            document.getElementById("SearchBoxPt").value = this.responseText;
-        }
-    };
-    xhttp.send(); 
+    var xhr = new XMLHttpRequest();
+xhr.open('GET', 'https://jrn011.github.io/CSCI305Project1/MovieInfo.db', true);
+xhr.responseType = 'arraybuffer';
+ console.log("hello")
+xhr.onload = function(z) {
+	var uInt8Array = new Uint8Array(this.response);
+  var db = new SQL.Database(uInt8Array);
+  var x= document.getElementById("genre").value;
+  var contents= db.exec("SELECT * FROM movies where genres LIKE '%"+x+"%' limit 30");
+ 
+   var res= document.getElementById("result");
+  while(res.firstChild){
+  	res.removeChild(res.firstChild);
+  }
+  contents[0].values.forEach((row) => { 
+  	var li =document.createElement("li");
+  	var y= db.exec("SELECT AVG(rating) from ratings, movies where ratings.movieID=movies.movieID and movies.title='"+row[1]+"'")
+  	li.textContent=row[1]+", Genres: "+row[2]+" , Average Rating: "+y[0].values[0];
+  	res.appendChild(li);
+  });
 
 }
+
+  xhr.send();  }
+
+
+
+    function searchTitle(){
+      var r1= document.getElementById("result");
+      var p =document.createElement("p");
+  	p.classList.add("none");
+  	p.innerHTML= "Loading..."
+  	p.classList.add("col-12");
+  	while(r1.firstChild){
+  	r1.removeChild(r1.firstChild);
+  }
+  	r1.appendChild(p);
+
+    var xhr = new XMLHttpRequest();
+xhr.open('GET', 'https://jrn011.github.io/CSCI305Project1/MovieInfo.db', true);
+xhr.responseType = 'arraybuffer';
+
+xhr.onload = function(e) {
+  var uInt8Array = new Uint8Array(this.response);
+  var db = new SQL.Database(uInt8Array);
+  var t=document.getElementById("Title").value;
+  var contents=null;
+  if(t.includes("*")){
+  	var x= t.split("*",1)
+  	contents= db.exec("SELECT * FROM movies where title LIKE '"+x+"%'");
+  }else{
+  contents = db.exec("SELECT * FROM movies WHERE title LIKE '"+t+" (%'");}
+  var res= document.getElementById("result");
+  while(res.firstChild){
+  	res.removeChild(res.firstChild);
+  }
+  console.log(contents)
+  if(contents.length>0){
+  contents[0].values.forEach((row) => { 
+  var li =document.createElement("li");
+  var stats= document.getElementById("showstats");
+  if(stats.options[stats.selectedIndex].value==="no"){
+  	  var nd= document.createElement("div");
+	nd.classList.add("col-3")
+	nd.classList.add("pdt-5")
+	li.classList.add("resbox")
+  	  li.textContent=row[1];
+  	  nd.appendChild(li);
+  res.appendChild(nd);
+}else{ 
+	y= db.exec("SELECT COUNT(ratingID) from ratings, movies where ratings.movieID=movies.movieID and movies.title='"+row[1]+"'")
+	console.log(y)
+	var nd= document.createElement("div");
+	nd.classList.add("col-3")
+	nd.classList.add("pdt-5")
+	li.classList.add("resbox")
+	li.innerHTML="<div>"+row[1]+"</div>"+"<div>"+"Number of ratings: "+ y[0].values[0]+"</div>"
+	nd.appendChild(li);
+	//li.textContent=row[1]+ "Number of ratings: "+y[0].values[0];
+  res.appendChild(nd);}
+ 
+
+   });}else{
+  	var p =document.createElement("p");
+  	p.classList.add("none");
+  	p.classList.add("col-12");
+  	p.innerHTML= "No results found!"
+  	res.appendChild(p);
+
+  }
+  
+ 
+};
+xhr.send();}
+
+
 </script>
   </body>
 </html>
