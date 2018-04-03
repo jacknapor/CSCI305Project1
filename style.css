@@ -255,3 +255,42 @@ li.underlined:nth-child(1){
 	font-size:12px;
 
 }
+
+.mt-10{
+
+	margin-top:10px;
+}
+.lgfont{
+	font-size: 18px;
+}
+
+.mg-0{
+	margin-left: 0px;
+	margin-right:0px;
+}
+
+.op{
+	border-style: solid;
+	border-color: black;
+	border-width:1px;
+}
+.y{
+	margin-top: 0px;
+}
+.y2{
+	margin-top: 0px;
+}
+
+@media (max-width:767px){
+	.y{
+		margin-top:10px;
+	}
+	.y2{
+		margin-top:20px;
+	}
+	.op{
+		border-style: none;
+	}
+
+
+}

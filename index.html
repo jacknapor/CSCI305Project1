@@ -24,27 +24,27 @@
         </div>
         <div class="col-12 content">
         	<div class="row">
-       			<div class="col-4 section" >
-       				<div class="row">
-        			<div class="col-12"><form action="javascript:searchTitle();"><p>Search By Movie Title:</p><input id="Title" type="text"></form></div>
+       			<div class="col-lg-4 col-md-6 col-sm-12 section" >
+       				<div class="row mg-0 ">
+        			<div class="col-12"><form action="javascript:searchTitle();"><h4>Search By Movie Title:</h4><input id="Title" type="text"></form></div>
         			
-        			<div class="col-4">
+        			<div class="col-lg-4 col-md-4 col-sm-12 mt-10 lgfont op">
        					<p style="margin-bottom: 5px;">Show rating statistics?</p>
         				<select style="margin-bottom:10px; margin-top:0px;" id="showstats"><option value="yes">Yes</option><option value="no">No</option></select>
         			</div>
-        			<div class="col-4">
+        			<div class="col-lg-4 col-md-4 col-sm-12 mt-10 lgfont op">
         				<p style="margin-bottom: 5px;">Show genres?</p>
         				<select style="margin-bottom:10px; margin-top:0px;" id="showgenres"><option value="yes">Yes</option><option value="no">No</option></select>
         			</div>
-        			<div class="col-4">
+        			<div class="col-lg-4 col-md-4 col-sm-12 mt-10 lgfont op">
         				<p style="margin-bottom: 5px;">Show release year?</p>
         				<select style="margin-bottom:10px; margin-top:0px;" id="showyear"><option value="yes">Yes</option><option value="no">No</option></select>
         			</div>
-        			<div class="col-6">
+        			<div class="col-lg-6 col-md-6 col-sm-12 lgfont op y">
         				<p style="margin-bottom: 5px;">List all ratings?</p>
         				<select style="margin-bottom:10px; margin-top:0px;" id="showrating"><option value="yes">Yes</option><option value="no">No</option></select>
         			</div>
-        			<div class= "col-6">
+        			<div class= "col-lg-6 col-md-6 col-sm-12 lgfont op y">
         				<p style="margin-bottom: 5px;">List all tags?</p>
         				<select style="margin-bottom:10px; margin-top:0px;" id="showtags"><option value="yes">Yes</option><option value="no">No</option></select>
         			</div>
@@ -53,14 +53,14 @@
         			</div>
         			</div>
         		</div>
-        		<div class="col-4 section">
-         			<div><form action="javascript:searchGenre();"><p>Search by Genre:</p><input id="genre" type="text"></form>
+        		<div class="col-lg-4 col-md-6 col-sm-12 section y2">
+         			<div><form action="javascript:searchGenre();"><h4>Search by Genre:</h4><input id="genre" type="text"></form>
          			</div>	
          			<button class="sub" type="button" onclick="searchGenre()">Search Genre</button>
         			</div>
        
-        <div class="col-4 section">
-        <p>Display number of:</p>
+        <div class="col-lg-4 col-md-12 col-sm-12 section y2">
+        <h4>Display number of:</h4>
         <div>
         <select id= "countSelect">
         	<option value="user">Users</option>
@@ -170,7 +170,7 @@ xhr.onload = function(z) {
   var y= db.exec("SELECT AVG(rating) from ratings, movies where ratings.movieID=movies.movieID and movies.title='"+row[1].split("'").join("''")+"'")
 
  
-  li.innerHTML="<div class='underlined'>"+row[1]+"</div><ul><li class='subtext'>Genres: "+row[2].split("|").join(", ")+"</li><li class='subtext'>Average Rating: "+y[0].values[0].toString().substring(0,3)+"</li></ul>"
+  li.innerHTML="<div class='underlined' style='font-size:20px;'>"+row[1]+"</div><ul><li class='subtext'>Genres: "+row[2].split("|").join(", ")+"</li><li class='subtext'>Average Rating: "+y[0].values[0].toString().substring(0,3)+"</li></ul>"
   d.appendChild(li)
   res.appendChild(d)
 
@@ -240,7 +240,9 @@ xhr.onload = function(e) {
   if(stats.options[stats.selectedIndex].value==="no"){
   	  var nd= document.createElement("div");
   	  var ul=document.createElement("ul");
-	nd.classList.add("col-3")
+	nd.classList.add("col-lg-3")
+	nd.classList.add("col-md-6")
+	nd.classList.add("col-sm-12")
 	nd.classList.add("pdt-5")
 	ul.classList.add("resbox")
   	  ul.innerHTML="<li class='underlined'>"+row[1]+"</li>";
@@ -297,7 +299,9 @@ xhr.onload = function(e) {
 	
 	var nd= document.createElement("div");
 	var ul=document.createElement("ul");
-	nd.classList.add("col-3")
+	nd.classList.add("col-lg-3")
+	nd.classList.add("col-md-6")
+	nd.classList.add("col-sm-12")
 	nd.classList.add("pdt-5")
 	ul.classList.add("resbox")
 	ul.innerHTML="<li class='underlined' >"+row[1]+"</li>"+"<li class='subtext'>"+"Average Rating: "+ y4[0].values[0].toString().substring(0,3)+"</li>"+ "<li class='subtext'>"+"Number of ratings: "+ y[0].values[0]+"</li><li class='subtext'>Highest Rating: "+y2[0].values[0]+"</li><li class='subtext'>Lowest Rating: "+y3[0].values[0]+"</li>"
