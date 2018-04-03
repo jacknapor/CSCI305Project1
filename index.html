@@ -20,20 +20,45 @@
       
       <div class="row">
         <div class="col-12 head top">
-        <h3 class="underlined"> Movie Database Browser</h3>
+        	<h3 class="underlined"> Movie Database Browser</h3>
         </div>
         <div class="col-12 content">
-        <div class="row">
-        <div class="col-4 section" >
-        <div><form action="javascript:searchTitle();"><p>Search By Movie Title:</p><input id="Title" type="text"></form></div>
-        <button class="sub" type="button" onclick="searchTitle()">Search Title</button>
-        <div>
-        <p style="margin-bottom: 5px;">Show rating statistics?</p>
-        <select style="margin-bottom:10px; margin-top:0px;" id="showstats"><option value="yes">Yes</option><option value="no">No</option></select></div></div>
-        <div class="col-4 section">
-         <div><form action="javascript:searchGenre();"><p>Search by Genre:</p><input id="genre" type="text"></form></div>	
-         <button class="sub" type="button" onclick="searchGenre()">Search Genre</button>
-        </div>
+        	<div class="row">
+       			<div class="col-4 section" >
+       				<div class="row">
+        			<div class="col-12"><form action="javascript:searchTitle();"><p>Search By Movie Title:</p><input id="Title" type="text"></form></div>
+        			
+        			<div class="col-4">
+       					<p style="margin-bottom: 5px;">Show rating statistics?</p>
+        				<select style="margin-bottom:10px; margin-top:0px;" id="showstats"><option value="yes">Yes</option><option value="no">No</option></select>
+        			</div>
+        			<div class="col-4">
+        				<p style="margin-bottom: 5px;">Show genres?</p>
+        				<select style="margin-bottom:10px; margin-top:0px;" id="showgenres"><option value="yes">Yes</option><option value="no">No</option></select>
+        			</div>
+        			<div class="col-4">
+        				<p style="margin-bottom: 5px;">Show release year?</p>
+        				<select style="margin-bottom:10px; margin-top:0px;" id="showyear"><option value="yes">Yes</option><option value="no">No</option></select>
+        			</div>
+        			<div class="col-6">
+        				<p style="margin-bottom: 5px;">List all ratings?</p>
+        				<select style="margin-bottom:10px; margin-top:0px;" id="showrating"><option value="yes">Yes</option><option value="no">No</option></select>
+        			</div>
+        			<div class= "col-6">
+        				<p style="margin-bottom: 5px;">List all tags?</p>
+        				<select style="margin-bottom:10px; margin-top:0px;" id="showtags"><option value="yes">Yes</option><option value="no">No</option></select>
+        			</div>
+        			<div class="col-12">
+        				<button class="sub " type="button" onclick="searchTitle()">Search Title</button>
+        			</div>
+        			</div>
+        		</div>
+        		<div class="col-4 section">
+         			<div><form action="javascript:searchGenre();"><p>Search by Genre:</p><input id="genre" type="text"></form>
+         			</div>	
+         			<button class="sub" type="button" onclick="searchGenre()">Search Genre</button>
+        			</div>
+       
         <div class="col-4 section">
         <p>Display number of:</p>
         <div>
@@ -90,10 +115,9 @@ var uInt8Array = new Uint8Array(this.response);
   var db = new SQL.Database(uInt8Array);
   var item= document.getElementById("countSelect")
   var res= document.getElementById("result");
-  	console.log("hello!")
+  	
   	var y= db.exec("SELECT COUNT("+item.options[item.selectedIndex].value+"s."+item.options[item.selectedIndex].value+"ID) from "+item.options[item.selectedIndex].value+"s")
-  	console.log(y[0].values[0])
-  	console.log("hello!")
+  	
   	var p3= document.createElement("h4")
   	p3.classList.add("col-12")
   	p3.innerHTML="Number of "+ item.options[item.selectedIndex].value+ "s currently in the database: "+ y[0].values[0];
@@ -101,7 +125,7 @@ var uInt8Array = new Uint8Array(this.response);
   	res.removeChild(res.firstChild);
   }
   	res.appendChild(p3)
-
+ db.close();
 }
 xhr.send();
 }
@@ -142,7 +166,7 @@ xhr.onload = function(z) {
   d.classList.add("col-3");
   d.classList.add("pdt-5");
   li.classList.add("resbox");
-  console.log(row[1])
+
   var y= db.exec("SELECT AVG(rating) from ratings, movies where ratings.movieID=movies.movieID and movies.title='"+row[1].split("'").join("''")+"'")
 
  
@@ -156,7 +180,7 @@ xhr.onload = function(z) {
   	p.classList.add("col-12");
   	p.innerHTML= "No results found!"
   	res.appendChild(p);}
-
+ db.close();
 }
 
   xhr.send();  }
@@ -190,19 +214,18 @@ xhr.onload = function(e) {
   if(t.includes("*")){
   	var x= t.split("*",1)
   	var b= x[0].split("'").join("''")
-  	console.log(b)
-  	
+  
   	contents= db.exec("SELECT * FROM movies where title LIKE '%"+b+"%' limit 50");
   }else{
   	
-  	console.log(t)
-  	var b= x[0].split("'").join("''")
+  	
+  	var b= t.split("'").join("''")
   contents = db.exec("SELECT * FROM movies WHERE title LIKE '"+b+" (%' limit 50");}
   var res= document.getElementById("result");
   while(res.firstChild){
   	res.removeChild(res.firstChild);
   }
-  console.log(contents)
+ 
   if(contents.length>0){
   	var count=0;
   contents[0].values.forEach((row) => { 
@@ -210,30 +233,122 @@ xhr.onload = function(e) {
   var li =document.createElement("li");
   var stats= document.getElementById("showstats");
   count=count+1;
+  var genres= document.getElementById("showgenres");
+
 
    
   if(stats.options[stats.selectedIndex].value==="no"){
   	  var nd= document.createElement("div");
+  	  var ul=document.createElement("ul");
 	nd.classList.add("col-3")
 	nd.classList.add("pdt-5")
-	li.classList.add("resbox")
-  	  li.innerHTML="<div class='underlined'>"+row[1]+"</div>";
-  	  nd.appendChild(li);
+	ul.classList.add("resbox")
+  	  ul.innerHTML="<li class='underlined'>"+row[1]+"</li>";
+  	 if(genres.options[genres.selectedIndex].value==="yes"){
+  	var lig= document.createElement("li")
+  	lig.classList.add("subtext")
+  	var ligt= document.createTextNode("Genres: "+row[2].split("|").join(", "))
+  	lig.appendChild(ligt)
+  	ul.appendChild(lig)
+    }
+    var relyear= document.getElementById("showyear")
+    if(relyear.options[relyear.selectedIndex].value==="yes"){
+  	var lig= document.createElement("li")
+  	lig.classList.add("subtext")
+  	var ligt= document.createTextNode("Release Year: "+row[3])
+  	lig.appendChild(ligt)
+  	ul.appendChild(lig)
+    }
+    var tgs= document.getElementById("showtags")
+    if(tgs.options[tgs.selectedIndex].value==="yes"){
+    	 
+    var v1= db.exec("SELECT tag from tags where tags.movieID="+row[0].toString())
+ 
+   
+  	var lig= document.createElement("li")
+  	lig.classList.add("subtext")
+  	if(v1.length>0){
+  	var ligt= document.createTextNode("Tags: "+v1[0].values.join(", "))}
+  	else{var ligt= document.createTextNode("Tags: None ")}
+  	lig.appendChild(ligt)
+  	ul.appendChild(lig)
+    }
+    var allrt= document.getElementById("showrating")
+    if(allrt.options[allrt.selectedIndex].value==="yes"){
+    	 
+    var v1= db.exec("SELECT rating from ratings where ratings.movieID="+row[0].toString())
+ 	
+  	var lig= document.createElement("li")
+  	lig.classList.add("subtext")
+  	if(v1.length>0){
+
+  	var ligt= document.createTextNode("All ratings: "+v1[0].values.join(", "))}
+  	else{var ligt= document.createTextNode("All ratings: None ")}
+  	lig.appendChild(ligt)
+  	ul.appendChild(lig)
+    }
+  	  nd.appendChild(ul);
   res.appendChild(nd);
 }else{ 
 	y= db.exec("SELECT COUNT(ratingID) from ratings, movies where ratings.movieID=movies.movieID and movies.title='"+row[1].replace(/'/g,"''") +"'")
 	var y2= db.exec("SELECT rating from ratings, movies where ratings.movieID=movies.movieID and movies.title='"+row[1].replace(/'/g,"''") +"' order by rating desc limit 1")
 	var y3= db.exec("SELECT rating from ratings, movies where ratings.movieID=movies.movieID and movies.title='"+row[1].replace(/'/g,"''") +"' order by rating asc limit 1")
 	var y4= db.exec("SELECT AVG(rating) from ratings, movies where ratings.movieID=movies.movieID and movies.title='"+row[1].replace(/'/g,"''") +"'")
-	console.log(y)
+	
 	var nd= document.createElement("div");
+	var ul=document.createElement("ul");
 	nd.classList.add("col-3")
 	nd.classList.add("pdt-5")
-	li.classList.add("resbox")
-	li.innerHTML="<div class='underlined'>"+row[1]+"</div><ul>"+"<li class='subtext'>"+"Average Rating: "+ y4[0].values[0].toString().substring(0,3)+"</li>"+ "<li class='subtext'>"+"Number of ratings: "+ y[0].values[0]+"</li><li class='subtext'>Highest Rating: "+y2[0].values[0]+"</li><li class='subtext'>Lowest Rating: "+y3[0].values[0]+"</li></ul>"
-	nd.appendChild(li);
+	ul.classList.add("resbox")
+	ul.innerHTML="<li class='underlined' >"+row[1]+"</li>"+"<li class='subtext'>"+"Average Rating: "+ y4[0].values[0].toString().substring(0,3)+"</li>"+ "<li class='subtext'>"+"Number of ratings: "+ y[0].values[0]+"</li><li class='subtext'>Highest Rating: "+y2[0].values[0]+"</li><li class='subtext'>Lowest Rating: "+y3[0].values[0]+"</li>"
+	
+	if(genres.options[genres.selectedIndex].value==="yes"){
+  	var lig= document.createElement("li")
+  	lig.classList.add("subtext")
+  	var ligt= document.createTextNode("Genres: "+row[2].split("|").join(", "))
+  	lig.appendChild(ligt)
+  	ul.appendChild(lig)
+    }
+    var relyear= document.getElementById("showyear")
+    if(relyear.options[relyear.selectedIndex].value==="yes"){
+  	var lig= document.createElement("li")
+  	lig.classList.add("subtext")
+  	var ligt= document.createTextNode("Release Year: "+row[3])
+  	lig.appendChild(ligt)
+  	ul.appendChild(lig)
+    }
+    var tgs= document.getElementById("showtags")
+    if(tgs.options[tgs.selectedIndex].value==="yes"){
+    	 
+    var v1= db.exec("SELECT tag from tags where tags.movieID="+row[0].toString())
+ 
+   
+  	var lig= document.createElement("li")
+  	lig.classList.add("subtext")
+  	if(v1.length>0){
+  	var ligt= document.createTextNode("Tags: "+v1[0].values.join(", "))}
+  	else{var ligt= document.createTextNode("Tags: None ")}
+  	lig.appendChild(ligt)
+  	ul.appendChild(lig)
+    }
+    var allrt= document.getElementById("showrating")
+    if(allrt.options[allrt.selectedIndex].value==="yes"){
+    	 
+    var v1= db.exec("SELECT rating from ratings where ratings.movieID="+row[0].toString())
+ 
+  	var lig= document.createElement("li")
+  	lig.classList.add("subtext")
+  	if(v1.length>0){
+
+  	var ligt= document.createTextNode("All ratings: "+v1[0].values.join(", "))}
+  	else{var ligt= document.createTextNode("All ratings: None ")}
+  	lig.appendChild(ligt)
+  	ul.appendChild(lig)
+    }
+	
 
 	//li.textContent=row[1]+ "Number of ratings: "+y[0].values[0];
+	nd.appendChild(ul);
   res.appendChild(nd);}
  
 
@@ -246,9 +361,10 @@ xhr.onload = function(e) {
 
   }
   
- 
+ db.close();
 };
 xhr.send();
+
 }
 
 
