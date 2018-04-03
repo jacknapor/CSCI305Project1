@@ -27,7 +27,7 @@
         </div>
         <div class="col-12 content">
         	<div class="row">
-       			<div class="col-lg-4 col-md-6 col-sm-12 section" >
+       			<div class="col-lg-4 col-md-4 col-sm-12 section" >
        				<div class="row mg-0 ">
         			<div class="col-12"><form action="javascript:searchTitle();"><h4>Search By Movie Title:</h4><input id="Title" type="text"></form></div>
         			
@@ -56,13 +56,13 @@
         			</div>
         			</div>
         		</div>
-        		<div class="col-lg-4 col-md-6 col-sm-12 section y2">
+        		<div class="col-lg-4 col-md-4 col-sm-12 section y2">
          			<div><form action="javascript:searchGenre();"><h4>Search by Genre:</h4><input id="genre" type="text"></form>
          			</div>	
          			<button class="sub" type="button" onclick="searchGenre()">Search Genre</button>
         			</div>
        
-        <div class="col-lg-4 col-md-12 col-sm-12 section y2">
+        <div class="col-lg-4 col-md-4 col-sm-12 section y2">
         <h4>Display number of:</h4>
         <div>
         <select id= "countSelect">
@@ -74,6 +74,73 @@
         </div>
         <button class="sub" type="button" onclick="giveCount()">Find Total</button>
         	
+        </div>
+        <div class="col-12 section y2">
+        	<h4>Update the Database:</h4>
+        	<div class="col-12"><form action="javascript:updateDB();"><p class="lgfont" style="margin-bottom: 0px;">Enter a Username:</p><input id="updateUname" type="text"></form></div>
+        	<div class="col-12"><p class="lgfont" style="margin-bottom: 0px;">Enter your State:</p><select id="stateSelect"><option value="AL">Alabama</option>
+	<option value="AK">Alaska</option>
+	<option value="AZ">Arizona</option>
+	<option value="AR">Arkansas</option>
+	<option value="CA">California</option>
+	<option value="CO">Colorado</option>
+	<option value="CT">Connecticut</option>
+	<option value="DE">Delaware</option>
+	<option value="DC">District Of Columbia</option>
+	<option value="FL">Florida</option>
+	<option value="GA">Georgia</option>
+	<option value="HI">Hawaii</option>
+	<option value="ID">Idaho</option>
+	<option value="IL">Illinois</option>
+	<option value="IN">Indiana</option>
+	<option value="IA">Iowa</option>
+	<option value="KS">Kansas</option>
+	<option value="KY">Kentucky</option>
+	<option value="LA">Louisiana</option>
+	<option value="ME">Maine</option>
+	<option value="MD">Maryland</option>
+	<option value="MA">Massachusetts</option>
+	<option value="MI">Michigan</option>
+	<option value="MN">Minnesota</option>
+	<option value="MS">Mississippi</option>
+	<option value="MO">Missouri</option>
+	<option value="MT">Montana</option>
+	<option value="NE">Nebraska</option>
+	<option value="NV">Nevada</option>
+	<option value="NH">New Hampshire</option>
+	<option value="NJ">New Jersey</option>
+	<option value="NM">New Mexico</option>
+	<option value="NY">New York</option>
+	<option value="NC">North Carolina</option>
+	<option value="ND">North Dakota</option>
+	<option value="OH">Ohio</option>
+	<option value="OK">Oklahoma</option>
+	<option value="OR">Oregon</option>
+	<option value="PA">Pennsylvania</option>
+	<option value="RI">Rhode Island</option>
+	<option value="SC">South Carolina</option>
+	<option value="SD">South Dakota</option>
+	<option value="TN">Tennessee</option>
+	<option value="TX">Texas</option>
+	<option value="UT">Utah</option>
+	<option value="VT">Vermont</option>
+	<option value="VA">Virginia</option>
+	<option value="WA">Washington</option>
+	<option value="WV">West Virginia</option>
+	<option value="WI">Wisconsin</option>
+	<option value="WY">Wyoming</option></select></div>
+        	<div class="col-12"><form action="javascript:updateDB();"><p class="lgfont" style="margin-bottom: 0px;">Enter Title and Year of Movie to be Updated:</p><input id="updateTitle" type="text"></form></div>
+        	<div>
+        <p class="lgfont " style="margin-bottom:0px; margin-top:10px;">Select Field to Add:</p>
+        <select id= "updateSelect" style="margin-bottom:15px;">
+        	<option value="tags">Tags</option>
+        	<option value="ratings">Ratings</option>
+        </select>
+        </div>
+        <div>
+        	<div class="col-12"><form action="javascript:updateDB();"><p class="lgfont" style="margin-bottom:0px;">Enter Value to Add:</p><input id="updateVal" type="text" style="margin-bottom:15px;"></form></div>
+        	<button class="sub" type="button" onclick="updateDB()" style="margin-top:0px; margin-bottom: 15px;">Add to Database</button>
+        </div>
         </div>
      	</div>
         </div>
@@ -98,6 +165,136 @@
     
 
     <script>
+    var db;
+    function r(){
+    	var xhr = new XMLHttpRequest();
+    
+xhr.open('GET', 'https://jrn011.github.io/CSCI305Project1/MovieInfo.db', true);
+xhr.responseType = 'arraybuffer';
+xhr.onload = function(b) {
+var uInt8Array = new Uint8Array(this.response);
+ db = new SQL.Database(uInt8Array);
+
+}
+xhr.send()
+}
+r();
+
+    function updateDB(){
+
+    	
+  var us= document.getElementById("updateSelect");
+  var ut=document.getElementById("updateTitle")
+  	var uv=document.getElementById("updateVal")
+  	var un=document.getElementById("updateUname")
+  	var ss=document.getElementById("stateSelect")
+  	var g= db.exec("select count(userID) from users")
+  	console.log(g)
+  	var nuid= g[0].values[0][0]
+  	nuid=nuid+1
+  	console.log(nuid)
+  	if(un.value===""||ut.value===""||uv.value===""){
+  		var r1= document.getElementById("result");
+    	var p =document.createElement("p");
+  	p.classList.add("none");
+  	p.classList.add("col-12")
+  	p.innerHTML= "Invalid Entry, you must fill out all fields"
+  	while(r1.firstChild){
+  	r1.removeChild(r1.firstChild);
+  }
+  	r1.appendChild(p);
+
+
+  	}else if(us.options[us.selectedIndex].value==='tags'){
+  	
+  	
+  	var g2= db.run("Insert into users(userID,userName,userState) values (?,?,?)",[nuid,un.value,ss.value])
+  	var a1= db.exec("select count(tagID) from tags")
+  	a1=a1[0].values[0][0]
+
+
+  	var gmid= db.exec("select movieID from movies where title='"+ut.value+"'")
+ 	if(gmid.length>0){
+  	gmid=gmid[0].values[0][0]
+  	gmid=gmid+1
+  	var g3= db.run("Insert into tags(tagID,userID,movieID,tag,timestamp) values (?,?,?,?,?)",[a1,nuid,gmid,uv.value,"99999999999999"])
+  	var g4= db.exec("select count(tagID) from tags")
+  	console.log(g4)
+  	var g5= db.exec("select * from tags where tagID>1290 ")
+  	console.log(g5)
+  	var r1= document.getElementById("result");
+    	var p =document.createElement("p");
+  	p.classList.add("none");
+  	p.classList.add("col-12")
+  	p.innerHTML= "Successfully added a tag with values: (tagID: "+ a1+", userID: "+ nuid+", movieID: "+ gmid+", tag: "+ uv.value+", timestamp: 99999999999999)"
+  	while(r1.firstChild){
+  	r1.removeChild(r1.firstChild);
+  }
+  	r1.appendChild(p);
+
+
+  }else{ var r1= document.getElementById("result");
+    	var p =document.createElement("p");
+  	p.classList.add("none");
+  	p.classList.add("col-12")
+  	p.innerHTML= "Movie Title not in database or missing it's year. Example title: 'Toy Story (1995)'"
+  	while(r1.firstChild){
+  	r1.removeChild(r1.firstChild);
+  }
+  	r1.appendChild(p);}
+  }else{
+  	if(us.options[us.selectedIndex].value==='ratings'){
+  		var g2= db.run("Insert into users(userID,userName,userState) values (?,?,?)",[nuid,un.value,ss.value])
+  	var a1= db.exec("select count(ratingID) from ratings")
+  	a1=a1[0].values[0][0]
+
+
+  	var gmid= db.exec("select movieID from movies where title='"+ut.value+"'")
+  	console.log(gmid)
+  	if(gmid.length>0){
+  	gmid=gmid[0].values[0][0]
+  	gmid=gmid+1
+  	var g3= db.run("Insert into ratings(ratingID,userID,movieID,rating,timestamp) values (?,?,?,?,?)",[a1,nuid,gmid,uv.value,"99999999999999"])
+  	
+  	var r1= document.getElementById("result");
+    	var p =document.createElement("p");
+  	p.classList.add("none");
+  	p.classList.add("col-12")
+  	p.innerHTML= "Successfully added a rating with values: (ratingID: "+ a1+", userID: "+ nuid+", movieID: "+ gmid+", rating: "+ uv.value+", timestamp: 99999999999999)"
+  	while(r1.firstChild){
+  	r1.removeChild(r1.firstChild);
+  }
+  	r1.appendChild(p);
+
+
+  }else{
+  	gmid=gmid[0].values[0][0]
+  	gmid=gmid+1
+  	try{
+  	var g3= db.run("Insert into ratings(ratingID,userID,movieID,rating,timestamp) values (?,?,?,?,?)",[a1,nuid,gmid,uv.value,"99999999999999"])}catch(err){
+  		var r1= document.getElementById("result");
+    	var p =document.createElement("p");
+  	p.classList.add("none");
+  	p.classList.add("col-12")
+  	p.innerHTML= err.message;
+  	while(r1.firstChild){
+  	r1.removeChild(r1.firstChild);
+  }
+  	r1.appendChild(p);
+  	}
+  
+  	
+
+  	}
+  }
+}
+
+
+    }
+
+
+
+
     function giveCount(){
     	var r1= document.getElementById("result");
     	var p =document.createElement("p");
@@ -110,15 +307,12 @@
   	r1.appendChild(p);
 
     
-var xhr = new XMLHttpRequest();
-xhr.open('GET', 'https://jrn011.github.io/CSCI305Project1/MovieInfo.db', true);
-xhr.responseType = 'arraybuffer';
-xhr.onload = function(b) {
-var uInt8Array = new Uint8Array(this.response);
-  var db = new SQL.Database(uInt8Array);
+
+
+
   var item= document.getElementById("countSelect")
   var res= document.getElementById("result");
-  	
+  
   	var y= db.exec("SELECT COUNT("+item.options[item.selectedIndex].value+"s."+item.options[item.selectedIndex].value+"ID) from "+item.options[item.selectedIndex].value+"s")
   	
   	var p3= document.createElement("h4")
@@ -128,9 +322,9 @@ var uInt8Array = new Uint8Array(this.response);
   	res.removeChild(res.firstChild);
   }
   	res.appendChild(p3)
- db.close();
-}
-xhr.send();
+
+
+
 }
 
 
@@ -146,12 +340,8 @@ xhr.send();
   }
   	r1.appendChild(p);
 
-    var xhr = new XMLHttpRequest();
-xhr.open('GET', 'https://jrn011.github.io/CSCI305Project1/MovieInfo.db', true);
-xhr.responseType = 'arraybuffer';
-xhr.onload = function(z) {
-	var uInt8Array = new Uint8Array(this.response);
-  var db = new SQL.Database(uInt8Array);
+   
+
   var x= document.getElementById("genre").value;
   var res= document.getElementById("result");
   while(res.firstChild){
@@ -183,14 +373,26 @@ xhr.onload = function(z) {
   	p.classList.add("col-12");
   	p.innerHTML= "No results found!"
   	res.appendChild(p);}
- db.close();
-}
+ }
 
-  xhr.send();  }
+ 	function loadTitle(_callback){
+ 		var r1= document.getElementById("result");
+      var p =document.createElement("p");
+  	p.classList.add("none");
+  	p.innerHTML= "Loading..."
+  	p.classList.add("col-12");
+  	while(r1.firstChild){
+  	r1.removeChild(r1.firstChild);
+  }
+  	r1.appendChild(p);
 
-
+  	_callback();
+ 	}
 
     function searchTitle(){
+    	loadTitle(function(){
+    		console.log("done")
+    	});
       var r1= document.getElementById("result");
       var p =document.createElement("p");
   	p.classList.add("none");
@@ -201,16 +403,8 @@ xhr.onload = function(z) {
   }
   	r1.appendChild(p);
 
-    var xhr = new XMLHttpRequest();
-xhr.open('GET', 'https://jrn011.github.io/CSCI305Project1/MovieInfo.db', true);
-xhr.responseType = 'arraybuffer';
+    
 
-
-
-
-xhr.onload = function(e) {
-  var uInt8Array = new Uint8Array(this.response);
-  var db = new SQL.Database(uInt8Array);
   var t=document.getElementById("Title").value;
 
   var contents=null;
@@ -237,6 +431,7 @@ xhr.onload = function(e) {
   var stats= document.getElementById("showstats");
   count=count+1;
   var genres= document.getElementById("showgenres");
+
 
 
    
@@ -368,9 +563,7 @@ xhr.onload = function(e) {
 
   }
   
- db.close();
-};
-xhr.send();
+
 
 }
 
