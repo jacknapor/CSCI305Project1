@@ -27,43 +27,47 @@
         </div>
         <div class="col-12 content">
         	<div class="row">
-       			<div class="col-lg-4 col-md-4 col-sm-12 section" >
+       			<div class="col-lg-4 col-md-12 col-sm-12 section" >
        				<div class="row mg-0 ">
-        			<div class="col-12"><form action="javascript:searchTitle();"><h4 class= "underlined">Search By Movie Title:</h4><input id="Title" type="text"></form></div>
+        			<div class="col-12"><form action="javascript:searchTitle(); return false;"><h4 class= "underlined">Search By Movie Title:</h4><input id="Title" type="text"></form></div>
         			
-        			<div class="col-lg-4 col-md-4 col-sm-12 mt-10 lgfont op">
-       					<p style="margin-bottom: 5px;">Show rating statistics?</p>
-        				<select style="margin-bottom:10px; margin-top:0px;" id="showstats"><option value="yes">Yes</option><option value="no">No</option></select>
+        			<div class="col-lg-4 col-md-12 col-sm-12 mt-10 lgfont op">
+       					<p style="margin-bottom: 0px;">Show rating statistics? </p><p style="font-size: 10px; margin-bottom: 5px;">(Total, average, highest, lowest)</p>
+        				<select style="margin-bottom:10px; margin-top:0px;" id="showstats"><option value="yes">Yes</option><option value="no" selected>No</option></select>
+        				<p style="font-size: 8px;">*NOTE: Selecting 'yes' may cause results to take up to 15 seconds to appear, and will limit results to the first 30 movies.</p>
         			</div>
-        			<div class="col-lg-4 col-md-4 col-sm-12 mt-10 lgfont op">
+        			<div class="col-lg-4 col-md-12 col-sm-12 mt-10 lgfont op">
         				<p style="margin-bottom: 5px;">Show genres?</p>
         				<select style="margin-bottom:10px; margin-top:0px;" id="showgenres"><option value="yes">Yes</option><option value="no">No</option></select>
         			</div>
-        			<div class="col-lg-4 col-md-4 col-sm-12 mt-10 lgfont op">
+        			<div class="col-lg-4 col-md-12 col-sm-12 mt-10 lgfont op">
         				<p style="margin-bottom: 5px;">Show release year?</p>
         				<select style="margin-bottom:10px; margin-top:0px;" id="showyear"><option value="yes">Yes</option><option value="no">No</option></select>
         			</div>
-        			<div class="col-lg-6 col-md-6 col-sm-12 lgfont op y">
+        			<div class="col-lg-6 col-md-12 col-sm-12 lgfont op y">
         				<p style="margin-bottom: 5px;">List all ratings?</p>
-        				<select style="margin-bottom:10px; margin-top:0px;" id="showrating"><option value="yes">Yes</option><option value="no">No</option></select>
+        				<select style="margin-bottom:10px; margin-top:0px;" id="showrating"><option value="yes">Yes</option><option value="no" selected>No</option></select>
         			</div>
-        			<div class= "col-lg-6 col-md-6 col-sm-12 lgfont op y">
+        			<div class= "col-lg-6 col-md-12 col-sm-12 lgfont op y">
         				<p style="margin-bottom: 5px;">List all tags?</p>
         				<select style="margin-bottom:10px; margin-top:0px;" id="showtags"><option value="yes">Yes</option><option value="no">No</option></select>
         			</div>
         			<div class="col-12">
         				<button class="sub " type="button" onclick="searchTitle()">Search Title</button>
+        				
         			</div>
         			</div>
         		</div>
-        		<div class="col-lg-4 col-md-4 col-sm-12 section y2">
+        		<div class="col-lg-4 col-md-12 col-sm-12 section y2">
          			<div><form action="javascript:searchGenre();"><h4 class="underlined">Search by Genre:</h4><input id="genre" type="text"></form>
          			</div>	
-         			<button class="sub" type="button" onclick="searchGenre()">Search Genre</button>
+         			<div >
+         			<button class="sub" type="button" onclick="searchGenre()">Search Genre</button></div>
         			</div>
        
-        <div class="col-lg-4 col-md-4 col-sm-12 section y2">
-        <h4 class="underlined">Display number of:</h4>
+        <div class="col-lg-4 col-md-12 col-sm-12 section y2">
+        <div class="section y3" >
+        <h4 class="underlined">Display Number Of:</h4>
         <div>
         <select id= "countSelect">
         	<option value="user">Users</option>
@@ -73,7 +77,8 @@
         </select>
         </div>
         <button class="sub" type="button" onclick="giveCount()">Find Total</button>
-        <div class="col-12"><h4 class="underlined">Display users by State: </h4><p class="lgfont" style="margin-bottom: 0px;">Enter a State:</p><select id="stateSearch"><option value="AL">Alabama</option>
+        </div>
+        <div class="col-12 section"><h4 class="underlined">Display Users by State: </h4><p class="lgfont" style="margin-bottom: 0px;">Enter a State:</p><select id="stateSearch"><option value="AL">Alabama</option>
 	<option value="AK">Alaska</option>
 	<option value="AZ">Arizona</option>
 	<option value="AR">Arkansas</option>
@@ -130,8 +135,10 @@
         	
         </div>
         <div class="col-12 section y2">
-        	<h4 class="underlined">Update the Database:</h4>
-        	<div class="col-12"><form action="javascript:updateDB();"><p class="lgfont" style="margin-bottom: 0px;">Enter a Username:</p><input id="updateUname" type="text" style="margin-bottom: 10px;"></form></div>
+        	
+        	<div class="row mg-0">
+        	<div class="col-lg-6 col-md-6 col-sm-12 section y3">
+        	<div class="col-12 "><h4 class="underlined">Create a New User</h4><form action="javascript:createUser(); return false;"><p class="lgfont" style="margin-bottom: 0px;">Enter a Username:</p><input id="updateUname" type="text" style="margin-bottom: 10px;"></form></div>
         	<div class="col-12"><p class="lgfont" style="margin-bottom: 0px;">Enter your State:</p><select id="stateSelect" style="margin-bottom: 10px;"><option value="AL">Alabama</option>
 	<option value="AK">Alaska</option>
 	<option value="AZ">Arizona</option>
@@ -182,8 +189,11 @@
 	<option value="WA">Washington</option>
 	<option value="WV">West Virginia</option>
 	<option value="WI">Wisconsin</option>
-	<option value="WY">Wyoming</option></select></div>
-        	<div class="col-12"><form action="javascript:updateDB();"><p class="lgfont" style="margin-bottom: 0px;">Enter Title and Year of Movie to be Updated:</p><input id="updateTitle" type="text"></form></div>
+	<option value="WY">Wyoming</option></select></div><button class="sub" type="button" onclick="createUser()" style="margin-top:0px; margin-bottom: 15px;">Create New User</button> </div>
+			<div class="col-lg-6 col-md-6 col-sm-12 section y3">
+			<h4 class="underlined">Update the Database:</h4>
+			<div class="col-12"><form action="javascript:updateDB(); return false;"><p class="lgfont" style="margin-bottom: 0px;">Enter Your userID:</p><input id="enterID" type="text"></form></div>
+        	<div class="col-12"><form action="javascript:updateDB(); return false;"><p class="lgfont" style="margin-bottom: 0px;">Enter Title and Year of Movie to be Updated:</p><input id="updateTitle" type="text"></form></div>
         	<div>
         <p class="lgfont " style="margin-bottom:0px; margin-top:10px;">Select Field to Add:</p>
         <select id= "updateSelect" style="margin-bottom:15px;">
@@ -194,6 +204,8 @@
         <div>
         	<div class="col-12"><form action="javascript:updateDB();"><p class="lgfont" style="margin-bottom:0px;">Enter Value to Add:</p><input id="updateVal" type="text" style="margin-bottom:15px;"></form></div>
         	<button class="sub" type="button" onclick="updateDB()" style="margin-top:0px; margin-bottom: 15px;">Add to Database</button>
+        </div>
+        </div>
         </div>
         </div>
         
@@ -230,11 +242,50 @@ xhr.responseType = 'arraybuffer';
 xhr.onload = function(b) {
 var uInt8Array = new Uint8Array(this.response);
  db = new SQL.Database(uInt8Array);
+ var o1= db.exec("PRAGMA foreign_keys= ON;")
 
 }
 xhr.send()
 }
 r();
+	
+	function createUser(){
+		var j1= document.getElementById("updateUname")
+		var j2= document.getElementById("stateSelect")
+		var g= db.exec("select count(userID) from users")
+		var nuid= g[0].values[0][0]
+  		nuid=nuid+1
+  		if(j1.value.length>0){
+  		try{
+		var g2= db.run("Insert into users(userID,userName,userState) values (?,?,?)",[nuid,j1.value,j2.value])
+		var j3= document.createElement("p")
+			j3.classList.add("none");
+  	j3.classList.add("col-12")
+		j3.innerHTML="Successfully created a new user with userID="+nuid+", userName='"+j1.value+"', userState="+j2.value
+		var r1= document.getElementById("result")
+		while(r1.firstChild){
+  	r1.removeChild(r1.firstChild);
+  }
+  	r1.appendChild(j3);
+
+	}catch(err){
+
+		}
+	}else{
+		var j3= document.createElement("p")
+			j3.classList.add("none");
+  	j3.classList.add("col-12")
+		j3.innerHTML="You must enter a user name!"
+		var r1= document.getElementById("result")
+		while(r1.firstChild){
+  	r1.removeChild(r1.firstChild);
+  }
+  	r1.appendChild(j3);
+	}
+	var r4=document.getElementById("restop")
+		r4.scrollIntoView();
+
+	}
 
 	function searchState(){
 
@@ -266,24 +317,24 @@ r();
 		})
 		
 		r1.appendChild(ll)
-		r1.scrollIntoView()
+		var r3=document.getElementById("restop")
+		r3.scrollIntoView();
 	}
 
     function updateDB(){
 
     	var d = new Date();
 var seconds = Math.round(Date.now() / 1000);
-console.log(seconds)
+
   var us= document.getElementById("updateSelect");
   var ut=document.getElementById("updateTitle")
   	var uv=document.getElementById("updateVal")
-  	var un=document.getElementById("updateUname")
+  	var un=document.getElementById("enterID")
   	var ss=document.getElementById("stateSelect")
   	var g= db.exec("select count(userID) from users")
-  	console.log(g)
-  	var nuid= g[0].values[0][0]
-  	nuid=nuid+1
-  	console.log(nuid)
+
+  	var nuid= un.value
+  
   	var r1= document.getElementById("result");
   
   	if(un.value===""||ut.value===""||uv.value===""){
@@ -301,7 +352,7 @@ console.log(seconds)
   	}else if(us.options[us.selectedIndex].value==='tags'){
   	
   	
-  	var g2= db.run("Insert into users(userID,userName,userState) values (?,?,?)",[nuid,un.value,ss.value])
+  	
   	var a1= db.exec("select count(tagID) from tags")
   	a1=a1[0].values[0][0]
 
@@ -309,21 +360,34 @@ console.log(seconds)
   	var gmid= db.exec("select movieID from movies where title='"+ut.value+"'")
  	if(gmid.length>0){
   	gmid=gmid[0].values[0][0]
-  	gmid=gmid+1
+  
+  	try{
   	var g3= db.run("Insert into tags(tagID,userID,movieID,tag,timestamp) values (?,?,?,?,?)",[a1,nuid,gmid,uv.value,seconds])
+
+
   	var g4= db.exec("select count(tagID) from tags")
-  	console.log(g4)
+  	
   	var g5= db.exec("select * from tags where tagID>1290 ")
-  	console.log(g5)
+ 
   	var r1= document.getElementById("result");
     	var p =document.createElement("p");
   	p.classList.add("none");
   	p.classList.add("col-12")
-  	p.innerHTML= "Successfully added a tag with values: (tagID: "+ a1+", userID: "+ nuid+", movieID: "+ gmid+", tag: "+ uv.value+", timestamp: 99999999999999)"
+  	p.innerHTML= "Successfully added a tag with values: (tagID: "+ a1+", userID: "+ nuid+", movieID: "+ gmid+", tag: "+ uv.value+", timestamp: "+seconds+")!"
+  	while(r1.firstChild){
+  	r1.removeChild(r1.firstChild);
+  }
+  	r1.appendChild(p);} catch(err){
+  		var r1= document.getElementById("result");
+    	var p =document.createElement("p");
+  	p.classList.add("none");
+  	p.classList.add("col-12")
+  	p.innerHTML= "Error: " +err.message+"! '"+nuid+"' is not a valid userID."
   	while(r1.firstChild){
   	r1.removeChild(r1.firstChild);
   }
   	r1.appendChild(p);
+  	}
 
 
   }else{ var r1= document.getElementById("result");
@@ -337,36 +401,39 @@ console.log(seconds)
   	r1.appendChild(p);}
   }else{
   	if(us.options[us.selectedIndex].value==='ratings'){
-  		var g2= db.run("Insert into users(userID,userName,userState) values (?,?,?)",[nuid,un.value,ss.value])
+  		
   	var a1= db.exec("select count(ratingID) from ratings")
   	a1=a1[0].values[0][0]
 
 
   	var gmid= db.exec("select movieID from movies where title='"+ut.value+"'")
-  	console.log(gmid)
+  
   	if(gmid.length>0){
   	gmid=gmid[0].values[0][0]
-  	gmid=gmid+1
-  	try{
-  	var g3= db.run("Insert into ratings(ratingID,userID,movieID,rating,timestamp) values (?,?,?,?,?)",[a1,nuid,gmid,uv.value,seconds])}catch(err){
-  		var r1= document.getElementById("result");
-    	var p =document.createElement("p");
-  	p.classList.add("none");
-  	p.classList.add("col-12")
-  	p.innerHTML= err.message;
-  	while(r1.firstChild){
-  	r1.removeChild(r1.firstChild);
-  }
-  	r1.appendChild(p);
-  	}
   	
+  	try{
+  	var g3= db.run("Insert into ratings(ratingID,userID,movieID,rating,timestamp) values (?,?,?,?,?)",[a1,nuid,gmid,uv.value,seconds])
+  var r1= document.getElementById("result");
+    	var p =document.createElement("p");
   	p.classList.add("none");
   	p.classList.add("col-12")
   	p.innerHTML= "Successfully added a rating with values: (ratingID: "+ a1+", userID: "+ nuid+", movieID: "+ gmid+", rating: "+ uv.value+", timestamp: " +seconds+")"
   	while(r1.firstChild){
   	r1.removeChild(r1.firstChild);
   }
+  	r1.appendChild(p);}catch(err){
+  		var r1= document.getElementById("result");
+    	var p =document.createElement("p");
+  	p.classList.add("none");
+  	p.classList.add("col-12")
+  	p.innerHTML= "Error: "+err.message;
+  	if(err.message==="FOREIGN KEY constraint failed"){ p.innerHTML=p.innerHTML+"! '"+nuid+"' is not a valid userID."}
+  	while(r1.firstChild){
+  	r1.removeChild(r1.firstChild);
+  }
   	r1.appendChild(p);
+  	}
+  	
 
 
   }else{
@@ -414,7 +481,8 @@ console.log(seconds)
   
   	var y= db.exec("SELECT COUNT("+item.options[item.selectedIndex].value+"s."+item.options[item.selectedIndex].value+"ID) from "+item.options[item.selectedIndex].value+"s")
   	
-  	var p3= document.createElement("h4")
+  	var p3= document.createElement("p")
+    p3.classList.add("none")
   	p3.classList.add("col-12")
   	p3.innerHTML="Number of "+ item.options[item.selectedIndex].value+ "s currently in the database: "+ y[0].values[0];
   	while(res.firstChild){
@@ -497,7 +565,7 @@ var r3=document.getElementById("restop")
 
     function searchTitle(){
     	loadTitle(function(){
-    		console.log("done")
+    		
     	});
       var r1= document.getElementById("result");
    
@@ -518,13 +586,21 @@ var r3=document.getElementById("restop")
   if(t.includes("*")){
   	var x= t.split("*",1)
   	var b= x[0].split("'").join("''")
-  
-  	contents= db.exec("SELECT * FROM movies where title LIKE '%"+b+"%' limit 30");
+  	  var stats= document.getElementById("showstats");
+  	  if(stats.options[stats.selectedIndex].value==="no"){
+  	  	contents= db.exec("SELECT * FROM movies where title LIKE '%"+b+"%' limit 100");
+  	  }else{
+  	    contents= db.exec("SELECT * FROM movies where title LIKE '%"+b+"%' limit 30");
+  	  }
+  	
   }else{
   	
-  	
+  	var stats= document.getElementById("showstats");
   	var b= t.split("'").join("''")
-  contents = db.exec("SELECT * FROM movies WHERE title LIKE '"+b+" (%' limit 30");}
+  	 if(stats.options[stats.selectedIndex].value==="no"){   contents = db.exec("SELECT * FROM movies WHERE title LIKE '"+b+" (%' limit 100");}else{
+  	 	contents = db.exec("SELECT * FROM movies WHERE title LIKE '"+b+" (%' limit 30");
+  	 }
+}
   var res= document.getElementById("result");
   while(res.firstChild){
   	res.removeChild(res.firstChild);
@@ -550,6 +626,7 @@ var r3=document.getElementById("restop")
 	nd.classList.add("col-sm-12")
 	nd.classList.add("pdt-5")
 	ul.classList.add("resbox")
+	ul.classList.add("yello")
   	  ul.innerHTML="<li class='underlined' >"+row[1]+"</li>";
   	 if(genres.options[genres.selectedIndex].value==="yes"){
   	var lig= document.createElement("li")
@@ -599,6 +676,7 @@ var r3=document.getElementById("restop")
 }else{ 
 	y= db.exec("SELECT COUNT(ratingID) from ratings, movies where ratings.movieID=movies.movieID and movies.title='"+row[1].replace(/'/g,"''") +"'")
 	var y2= db.exec("SELECT rating from ratings, movies where ratings.movieID=movies.movieID and movies.title='"+row[1].replace(/'/g,"''") +"' order by rating desc limit 1")
+	
 	var y3= db.exec("SELECT rating from ratings, movies where ratings.movieID=movies.movieID and movies.title='"+row[1].replace(/'/g,"''") +"' order by rating asc limit 1")
 	var y4= db.exec("SELECT AVG(rating) from ratings, movies where ratings.movieID=movies.movieID and movies.title='"+row[1].replace(/'/g,"''") +"'")
 	
@@ -609,7 +687,9 @@ var r3=document.getElementById("restop")
 	nd.classList.add("col-sm-12")
 	nd.classList.add("pdt-5")
 	ul.classList.add("resbox")
-	ul.innerHTML="<li class='underlined' >"+row[1]+"</li>"+"<li class='subtext'>"+"Average Rating: "+ y4[0].values[0].toString().substring(0,3)+"</li>"+ "<li class='subtext'>"+"Number of ratings: "+ y[0].values[0]+"</li><li class='subtext'>Highest Rating: "+y2[0].values[0]+"</li><li class='subtext'>Lowest Rating: "+y3[0].values[0]+"</li>"
+	ul.classList.add("yello")
+
+	ul.innerHTML="<li class='underlined orng ' >"+row[1]+"</li>"+"<li class='subtext'>"+"Average Rating: "+ y4[0].values[0].toString().substring(0,3)+"</li>"+ "<li class='subtext'>"+"Number of ratings: "+ y[0].values[0]+"</li><li class='subtext'>Highest Rating: "+y2[0].values[0]+"</li><li class='subtext'>Lowest Rating: "+y3[0].values[0]+"</li>"
 	
 	if(genres.options[genres.selectedIndex].value==="yes"){
   	var lig= document.createElement("li")
