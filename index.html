@@ -312,7 +312,7 @@ xhr2.onload=  (r)=>{
     };
 
  xhr2.open("PUT",'https://api.github.com/repos/jrn011/CSCI305Project1/contents', true);
- xhr2.setRequestHeader("Authorization", "token 20e56817f72720cb67cd6f874b903d89ffaa042b")
+ xhr2.setRequestHeader("Authorization", "Basic jrn011:july7116")
  xhr2.setRequestHeader("Content-Type", 'application/json')
  
  xhr2.send(JSON.stringify(postData));
@@ -320,10 +320,10 @@ xhr2.onload=  (r)=>{
 
 // basic auth
 var gh = new GitHub({
-  // username: 'jrn011',
-  // password: 'july7116'
+  username: 'jrn011',
+   password: 'july7116'
    
-      token: '20e56817f72720cb67cd6f874b903d89ffaa042b'
+    //  token: '20e56817f72720cb67cd6f874b903d89ffaa042b'
   
 });
 
