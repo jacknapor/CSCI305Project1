@@ -347,22 +347,6 @@ console.log(seconds)
   	if(gmid.length>0){
   	gmid=gmid[0].values[0][0]
   	gmid=gmid+1
-  	var g3= db.run("Insert into ratings(ratingID,userID,movieID,rating,timestamp) values (?,?,?,?,?)",[a1,nuid,gmid,uv.value,seconds])
-  	
-  	var r1= document.getElementById("result");
-    	var p =document.createElement("p");
-  	p.classList.add("none");
-  	p.classList.add("col-12")
-  	p.innerHTML= "Successfully added a rating with values: (ratingID: "+ a1+", userID: "+ nuid+", movieID: "+ gmid+", rating: "+ uv.value+", timestamp: " +seconds+")"
-  	while(r1.firstChild){
-  	r1.removeChild(r1.firstChild);
-  }
-  	r1.appendChild(p);
-
-
-  }else{
-  	gmid=gmid[0].values[0][0]
-  	gmid=gmid+1
   	try{
   	var g3= db.run("Insert into ratings(ratingID,userID,movieID,rating,timestamp) values (?,?,?,?,?)",[a1,nuid,gmid,uv.value,seconds])}catch(err){
   		var r1= document.getElementById("result");
@@ -375,6 +359,26 @@ console.log(seconds)
   }
   	r1.appendChild(p);
   	}
+  	
+  	p.classList.add("none");
+  	p.classList.add("col-12")
+  	p.innerHTML= "Successfully added a rating with values: (ratingID: "+ a1+", userID: "+ nuid+", movieID: "+ gmid+", rating: "+ uv.value+", timestamp: " +seconds+")"
+  	while(r1.firstChild){
+  	r1.removeChild(r1.firstChild);
+  }
+  	r1.appendChild(p);
+
+
+  }else{
+  	var r1= document.getElementById("result");
+    	var p =document.createElement("p");
+  	p.classList.add("none");
+  	p.classList.add("col-12")
+  	p.innerHTML= "Movie Title not in database or missing it's year. Example title: 'Toy Story (1995)'"
+  	while(r1.firstChild){
+  	r1.removeChild(r1.firstChild);
+  }
+  	r1.appendChild(p);
   
   	
 
