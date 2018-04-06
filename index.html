@@ -9,10 +9,11 @@
    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
 
+
      <meta name="viewport" content="width=device-width, initial-scale=1">
      <link rel="stylesheet"
       href="style.css">
-      <script src='js/sql.js'></script>
+
       
   </head>
   <body>
@@ -230,9 +231,12 @@
 
     <script src='js/sql.js'></script>
 
+      <script src="https://unpkg.com/github-api/dist/GitHub.bundle.min.js"></script>
+
     
 
     <script>
+  
     var db;
     function r(){
     	var xhr = new XMLHttpRequest();
@@ -284,6 +288,48 @@ r();
 	}
 	var r4=document.getElementById("restop")
 		r4.scrollIntoView();
+		var binaryArray= db.export();
+		var buff= new ArrayBuffer(binaryArray.buffer)
+		console.log(binaryArray)
+ var xhr2= new XMLHttpRequest();
+
+ xhr2.onreadystatechange = function() {
+    if (xhr2.readyState == XMLHttpRequest.DONE) {
+        console.log(xhr2.responseText);
+    }
+}
+xhr2.onload=  (r)=>{
+	 console.log(r['target']['response']);
+
+};
+ var postData = {
+        "message": "Update",
+        "committer": {
+    		"name": "Jack Napor",
+    "email": "jrn011@bucknell.edu"
+ 	 },
+        "content":  btoa(binaryArray)
+    };
+
+ xhr2.open("PUT",'https://api.github.com/repos/jrn011/CSCI305Project1/contents', true);
+ xhr2.setRequestHeader("Authorization", "token 20e56817f72720cb67cd6f874b903d89ffaa042b")
+ xhr2.setRequestHeader("Content-Type", 'application/json')
+ 
+ xhr2.send(JSON.stringify(postData));
+
+
+// basic auth
+var gh = new GitHub({
+  // username: 'jrn011',
+  // password: 'july7116'
+   
+      token: '20e56817f72720cb67cd6f874b903d89ffaa042b'
+  
+});
+
+
+var repo= gh.getRepo('jrn011','CSCI305Project1')
+ repo.writeFile('master', '.', JSON.stringify(postData), 'u', function(err) {});
 
 	}
 
@@ -455,6 +501,9 @@ var seconds = Math.round(Date.now() / 1000);
 
 	var r3=document.getElementById("restop")
 		r3.scrollIntoView();
+
+  
+
     }
 
 
