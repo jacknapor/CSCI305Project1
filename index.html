@@ -233,7 +233,6 @@
     
 
     <script>
-  
     var db;
     function r(){
     	var xhr = new XMLHttpRequest();
@@ -285,20 +284,6 @@ r();
 	}
 	var r4=document.getElementById("restop")
 		r4.scrollIntoView();
-		var binaryArray= db.export();
- var xhr2= new XMLHttpRequest();
- xhr2.onreadystatechange = function() {
-    if (xhr2.readyState == XMLHttpRequest.DONE) {
-        alert(xhr2.responseText);
-    }
-}
-xhr2.onload=  (r)=>{
-	 console.log(r['target']['response']);
-
-};
- xhr2.open("POST",'https://jrn011.github.io/CSCI305Project1/', false);
- xhr2.setRequestHeader('Content-Type', 'application/octet-stream');
- xhr2.send(binaryArray);
 
 	}
 
@@ -470,9 +455,6 @@ var seconds = Math.round(Date.now() / 1000);
 
 	var r3=document.getElementById("restop")
 		r3.scrollIntoView();
-
-  
-
     }
 
 
