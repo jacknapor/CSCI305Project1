@@ -384,15 +384,22 @@ r();
 // basic auth
 var gh = new GitHub({
   username: 'jrn011',
-  password:'c42063ea49cf9b0baaf7feeeaec0a916115b3992'
+   password: 'july7116'
    //password: '02b3e76beee0914dba559676a7e71106edb4d1ba'
    
     //  token: '20e56817f72720cb67cd6f874b903d89ffaa042b'
   
 });
+var xhr2= new XMLHttpRequest();
+xhr2.open('PUT', 'https://jrn011.github.io/CSCI305Project1/test.db', true);
+xhr2.setRequestHeader('Authorization', 'Basic jrn011:july7116')
+xhr2.setRequestHeader('Content-Type', 'application/json;charset=UTF-8')
+
+xhr2.send(JSON.stringify(postData))
 
 console.log(JSON.stringify(postData))
 var repo= gh.getRepo('jrn011','CSCI305Project1')
+
  repo.writeFile('master', './test.db', JSON.stringify(postData), 'u', function(err) {});
 
  
@@ -594,15 +601,22 @@ var seconds = Math.round(Date.now() / 1000);
 // basic auth
 var gh = new GitHub({
   username: 'jrn011',
-  password:'c42063ea49cf9b0baaf7feeeaec0a916115b3992'
-   //password: '02b3e76beee0914dba559676a7e71106edb4d1ba'
+ 
+   password: 'july7116'
    
     //  token: '20e56817f72720cb67cd6f874b903d89ffaa042b'
   
 });
+var xhr2= new XMLHttpRequest();
+xhr2.open('PUT', 'https://jrn011.github.io/CSCI305Project1/test.db', true);
+xhr2.setRequestHeader('Authorization', 'Basic anJuMDExOmp1bHk3MTE2')
+xhr2.setRequestHeader('Content-Type', 'application/json;charset=UTF-8')
+
+xhr2.send(JSON.stringify(postData))
 
 console.log(JSON.stringify(postData))
 var repo= gh.getRepo('jrn011','CSCI305Project1')
+
  repo.writeFile('master', './test.db', JSON.stringify(postData), 'u', function(err) {});
 
   
