@@ -241,17 +241,13 @@
     function r(){
     	var xhr = new XMLHttpRequest();
     //
-    /*
-xhr.open('GET', 'https://jrn011.github.io/CSCI305Project1/test.txt', true);
-xhr.responseType = 'json';
+   /*
+xhr.open('GET', 'https://jrn011.github.io/CSCI305Project1/MovieInfo.db', true);
+xhr.responseType = 'arraybuffer';
 xhr.onload = function(b) {
-	console.log(b.target.response)
-	console.log('a')
-	console.log(this.response.content)
-	var u8= atob(this.response.content)
-	console.log(u8)
-	var nb= new ArrayBuffer(u8)
-var uInt8Array = new Uint8Array(u8);
+	
+	
+var uInt8Array = new Uint8Array(this.response);
 	console.log(uInt8Array)
  db = new SQL.Database(uInt8Array);
  console.log(db)
@@ -388,7 +384,7 @@ r();
 // basic auth
 var gh = new GitHub({
   username: 'jrn011',
-  password:'a90b5b9e7fd87bb5248e938bc32b5a0ed1ff98ea'
+  password:'c42063ea49cf9b0baaf7feeeaec0a916115b3992'
    //password: '02b3e76beee0914dba559676a7e71106edb4d1ba'
    
     //  token: '20e56817f72720cb67cd6f874b903d89ffaa042b'
@@ -495,36 +491,7 @@ var seconds = Math.round(Date.now() / 1000);
   	r1.removeChild(r1.firstChild);
   }
   	r1.appendChild(p);
-  	var binaryArray= db.export();
-		console.log(binaryArray)
-		var buff= binaryArray.buffer
-		console.log(binaryArray)
-		console.log(buff)
- 
- var postData = {
-        "message": "Update",
-        "committer": {
-    		"name": "Jack Napor",
-    "email": "jrn011@bucknell.edu"
- 	 },
-        "content":  base64ArrayBuffer(buff)
-    };
-//console.log(postData)
-
-
-// basic auth
-var gh = new GitHub({
-  username: 'jrn011',
-  password:'a90b5b9e7fd87bb5248e938bc32b5a0ed1ff98ea'
-   //password: '02b3e76beee0914dba559676a7e71106edb4d1ba'
-   
-    //  token: '20e56817f72720cb67cd6f874b903d89ffaa042b'
   
-});
-
-console.log(JSON.stringify(postData))
-var repo= gh.getRepo('jrn011','CSCI305Project1')
- repo.writeFile('master', './test.db', JSON.stringify(postData), 'u', function(err) {});
 
   } catch(err){
   		var r1= document.getElementById("result");
@@ -571,36 +538,7 @@ var repo= gh.getRepo('jrn011','CSCI305Project1')
   	r1.removeChild(r1.firstChild);
   }
   	r1.appendChild(p);
-var binaryArray= db.export();
-		console.log(binaryArray)
-		var buff= binaryArray.buffer
-		console.log(binaryArray)
-		console.log(buff)
- 
- var postData = {
-        "message": "Update",
-        "committer": {
-    		"name": "Jack Napor",
-    "email": "jrn011@bucknell.edu"
- 	 },
-        "content":  base64ArrayBuffer(buff)
-    };
-//console.log(postData)
 
-
-// basic auth
-var gh = new GitHub({
-  username: 'jrn011',
-  password:'a90b5b9e7fd87bb5248e938bc32b5a0ed1ff98ea'
-   //password: '02b3e76beee0914dba559676a7e71106edb4d1ba'
-   
-    //  token: '20e56817f72720cb67cd6f874b903d89ffaa042b'
-  
-});
-
-console.log(JSON.stringify(postData))
-var repo= gh.getRepo('jrn011','CSCI305Project1')
- repo.writeFile('master', './test.db', JSON.stringify(postData), 'u', function(err) {});
 
   }catch(err){
   		var r1= document.getElementById("result");
@@ -636,6 +574,36 @@ var repo= gh.getRepo('jrn011','CSCI305Project1')
 
 	var r3=document.getElementById("restop")
 		r3.scrollIntoView();
+		var binaryArray= db.export();
+		console.log(binaryArray)
+		var buff= binaryArray.buffer
+		console.log(binaryArray)
+		console.log(buff)
+ 
+ var postData = {
+        "message": "Update",
+        "committer": {
+    		"name": "Jack Napor",
+    "email": "jrn011@bucknell.edu"
+ 	 },
+        "content":  base64ArrayBuffer(buff)
+    };
+//console.log(postData)
+
+
+// basic auth
+var gh = new GitHub({
+  username: 'jrn011',
+  password:'c42063ea49cf9b0baaf7feeeaec0a916115b3992'
+   //password: '02b3e76beee0914dba559676a7e71106edb4d1ba'
+   
+    //  token: '20e56817f72720cb67cd6f874b903d89ffaa042b'
+  
+});
+
+console.log(JSON.stringify(postData))
+var repo= gh.getRepo('jrn011','CSCI305Project1')
+ repo.writeFile('master', './test.db', JSON.stringify(postData), 'u', function(err) {});
 
   
 
