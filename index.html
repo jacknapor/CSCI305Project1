@@ -244,8 +244,12 @@
 xhr.open('GET', 'https://jrn011.github.io/CSCI305Project1/MovieInfo.db', true);
 xhr.responseType = 'arraybuffer';
 xhr.onload = function(b) {
+	//console.log(this.response.content)
+	//var u8= atob(this.response.content)
+	console.log(this.response)
 var uInt8Array = new Uint8Array(this.response);
  db = new SQL.Database(uInt8Array);
+ console.log(db)
  var o1= db.exec("PRAGMA foreign_keys= ON;")
 
 }
@@ -288,9 +292,11 @@ r();
 	}
 	var r4=document.getElementById("restop")
 		r4.scrollIntoView();
-		var binaryArray= db.export();
-		var buff= new ArrayBuffer(binaryArray.buffer)
+		var binaryArray= new Uint8Array(db.export());
 		console.log(binaryArray)
+		var buff= binaryArray.buffer
+		console.log(binaryArray)
+		console.log(buff)
  var xhr2= new XMLHttpRequest();
 
  xhr2.onreadystatechange = function() {
@@ -308,20 +314,16 @@ xhr2.onload=  (r)=>{
     		"name": "Jack Napor",
     "email": "jrn011@bucknell.edu"
  	 },
-        "content":  btoa(binaryArray)
+        "content":  btoa(buff)
     };
-
- xhr2.open("PUT",'https://api.github.com/repos/jrn011/CSCI305Project1/contents', true);
- xhr2.setRequestHeader("Authorization", "Basic jrn011:july7116")
- xhr2.setRequestHeader("Content-Type", 'application/json')
- 
- xhr2.send(JSON.stringify(postData));
+//console.log(postData)
 
 
 // basic auth
 var gh = new GitHub({
   username: 'jrn011',
-   password: 'july7116'
+  password:'4ebf42c3f1c3d6c6790e03d998cf6709f7e95bbb'
+   //password: '02b3e76beee0914dba559676a7e71106edb4d1ba'
    
     //  token: '20e56817f72720cb67cd6f874b903d89ffaa042b'
   
@@ -329,7 +331,7 @@ var gh = new GitHub({
 
 
 var repo= gh.getRepo('jrn011','CSCI305Project1')
- repo.writeFile('master', '.', JSON.stringify(postData), 'u', function(err) {});
+ repo.writeFile('master', './test.txt', JSON.stringify(postData), 'u', function(err) {});
 
 	}
 
