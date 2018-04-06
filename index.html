@@ -241,13 +241,38 @@
     function r(){
     	var xhr = new XMLHttpRequest();
     //
-xhr.open('GET', 'https://jrn011.github.io/CSCI305Project1/MovieInfo.db', true);
-xhr.responseType = 'arraybuffer';
+    /*
+xhr.open('GET', 'https://jrn011.github.io/CSCI305Project1/test.txt', true);
+xhr.responseType = 'json';
 xhr.onload = function(b) {
-	//console.log(this.response.content)
-	//var u8= atob(this.response.content)
-	console.log(this.response)
-var uInt8Array = new Uint8Array(this.response);
+	console.log(b.target.response)
+	console.log('a')
+	console.log(this.response.content)
+	var u8= atob(this.response.content)
+	console.log(u8)
+	var nb= new ArrayBuffer(u8)
+var uInt8Array = new Uint8Array(u8);
+	console.log(uInt8Array)
+ db = new SQL.Database(uInt8Array);
+ console.log(db)
+ var o1= db.exec("PRAGMA foreign_keys= ON;")*/
+ xhr.open('GET', 'https://jrn011.github.io/CSCI305Project1/test.db', true);
+xhr.responseType = 'json';
+xhr.onload = function(b) {
+	//console.log(b.target)
+	console.log(b.target.response)
+	//console.log('a')
+	var binary_string =  window.atob(this.response.content);
+    var len = binary_string.length;
+    var bytes = new Uint8Array( len );
+    for (var i = 0; i < len; i++)        {
+        bytes[i] = binary_string.charCodeAt(i);
+    }
+    var b5= bytes.buffer;
+	
+	
+var uInt8Array = new Uint8Array(b5);
+	console.log(uInt8Array)
  db = new SQL.Database(uInt8Array);
  console.log(db)
  var o1= db.exec("PRAGMA foreign_keys= ON;")
@@ -256,6 +281,57 @@ var uInt8Array = new Uint8Array(this.response);
 xhr.send()
 }
 r();
+	function base64ArrayBuffer(arrayBuffer) {
+  var base64    = ''
+  var encodings = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
+
+  var bytes         = new Uint8Array(arrayBuffer)
+  var byteLength    = bytes.byteLength
+  var byteRemainder = byteLength % 3
+  var mainLength    = byteLength - byteRemainder
+
+  var a, b, c, d
+  var chunk
+
+  // Main loop deals with bytes in chunks of 3
+  for (var i = 0; i < mainLength; i = i + 3) {
+    // Combine the three bytes into a single integer
+    chunk = (bytes[i] << 16) | (bytes[i + 1] << 8) | bytes[i + 2]
+
+    // Use bitmasks to extract 6-bit segments from the triplet
+    a = (chunk & 16515072) >> 18 // 16515072 = (2^6 - 1) << 18
+    b = (chunk & 258048)   >> 12 // 258048   = (2^6 - 1) << 12
+    c = (chunk & 4032)     >>  6 // 4032     = (2^6 - 1) << 6
+    d = chunk & 63               // 63       = 2^6 - 1
+
+    // Convert the raw binary segments to the appropriate ASCII encoding
+    base64 += encodings[a] + encodings[b] + encodings[c] + encodings[d]
+  }
+
+  // Deal with the remaining bytes and padding
+  if (byteRemainder == 1) {
+    chunk = bytes[mainLength]
+
+    a = (chunk & 252) >> 2 // 252 = (2^6 - 1) << 2
+
+    // Set the 4 least significant bits to zero
+    b = (chunk & 3)   << 4 // 3   = 2^2 - 1
+
+    base64 += encodings[a] + encodings[b] + '=='
+  } else if (byteRemainder == 2) {
+    chunk = (bytes[mainLength] << 8) | bytes[mainLength + 1]
+
+    a = (chunk & 64512) >> 10 // 64512 = (2^6 - 1) << 10
+    b = (chunk & 1008)  >>  4 // 1008  = (2^6 - 1) << 4
+
+    // Set the 2 least significant bits to zero
+    c = (chunk & 15)    <<  2 // 15    = 2^4 - 1
+
+    base64 += encodings[a] + encodings[b] + encodings[c] + '='
+  }
+  
+  return base64
+}
 	
 	function createUser(){
 		var j1= document.getElementById("updateUname")
@@ -292,29 +368,19 @@ r();
 	}
 	var r4=document.getElementById("restop")
 		r4.scrollIntoView();
-		var binaryArray= new Uint8Array(db.export());
+		var binaryArray= db.export();
 		console.log(binaryArray)
 		var buff= binaryArray.buffer
 		console.log(binaryArray)
 		console.log(buff)
- var xhr2= new XMLHttpRequest();
-
- xhr2.onreadystatechange = function() {
-    if (xhr2.readyState == XMLHttpRequest.DONE) {
-        console.log(xhr2.responseText);
-    }
-}
-xhr2.onload=  (r)=>{
-	 console.log(r['target']['response']);
-
-};
+ 
  var postData = {
         "message": "Update",
         "committer": {
     		"name": "Jack Napor",
     "email": "jrn011@bucknell.edu"
  	 },
-        "content":  btoa(buff)
+        "content":  base64ArrayBuffer(buff)
     };
 //console.log(postData)
 
@@ -322,16 +388,19 @@ xhr2.onload=  (r)=>{
 // basic auth
 var gh = new GitHub({
   username: 'jrn011',
-  password:'4ebf42c3f1c3d6c6790e03d998cf6709f7e95bbb'
+  password:'a90b5b9e7fd87bb5248e938bc32b5a0ed1ff98ea'
    //password: '02b3e76beee0914dba559676a7e71106edb4d1ba'
    
     //  token: '20e56817f72720cb67cd6f874b903d89ffaa042b'
   
 });
 
-
+console.log(JSON.stringify(postData))
 var repo= gh.getRepo('jrn011','CSCI305Project1')
- repo.writeFile('master', './test.txt', JSON.stringify(postData), 'u', function(err) {});
+ repo.writeFile('master', './test.db', JSON.stringify(postData), 'u', function(err) {});
+
+ 
+
 
 	}
 
@@ -425,7 +494,39 @@ var seconds = Math.round(Date.now() / 1000);
   	while(r1.firstChild){
   	r1.removeChild(r1.firstChild);
   }
-  	r1.appendChild(p);} catch(err){
+  	r1.appendChild(p);
+  	var binaryArray= db.export();
+		console.log(binaryArray)
+		var buff= binaryArray.buffer
+		console.log(binaryArray)
+		console.log(buff)
+ 
+ var postData = {
+        "message": "Update",
+        "committer": {
+    		"name": "Jack Napor",
+    "email": "jrn011@bucknell.edu"
+ 	 },
+        "content":  base64ArrayBuffer(buff)
+    };
+//console.log(postData)
+
+
+// basic auth
+var gh = new GitHub({
+  username: 'jrn011',
+  password:'a90b5b9e7fd87bb5248e938bc32b5a0ed1ff98ea'
+   //password: '02b3e76beee0914dba559676a7e71106edb4d1ba'
+   
+    //  token: '20e56817f72720cb67cd6f874b903d89ffaa042b'
+  
+});
+
+console.log(JSON.stringify(postData))
+var repo= gh.getRepo('jrn011','CSCI305Project1')
+ repo.writeFile('master', './test.db', JSON.stringify(postData), 'u', function(err) {});
+
+  } catch(err){
   		var r1= document.getElementById("result");
     	var p =document.createElement("p");
   	p.classList.add("none");
@@ -469,7 +570,39 @@ var seconds = Math.round(Date.now() / 1000);
   	while(r1.firstChild){
   	r1.removeChild(r1.firstChild);
   }
-  	r1.appendChild(p);}catch(err){
+  	r1.appendChild(p);
+var binaryArray= db.export();
+		console.log(binaryArray)
+		var buff= binaryArray.buffer
+		console.log(binaryArray)
+		console.log(buff)
+ 
+ var postData = {
+        "message": "Update",
+        "committer": {
+    		"name": "Jack Napor",
+    "email": "jrn011@bucknell.edu"
+ 	 },
+        "content":  base64ArrayBuffer(buff)
+    };
+//console.log(postData)
+
+
+// basic auth
+var gh = new GitHub({
+  username: 'jrn011',
+  password:'a90b5b9e7fd87bb5248e938bc32b5a0ed1ff98ea'
+   //password: '02b3e76beee0914dba559676a7e71106edb4d1ba'
+   
+    //  token: '20e56817f72720cb67cd6f874b903d89ffaa042b'
+  
+});
+
+console.log(JSON.stringify(postData))
+var repo= gh.getRepo('jrn011','CSCI305Project1')
+ repo.writeFile('master', './test.db', JSON.stringify(postData), 'u', function(err) {});
+
+  }catch(err){
   		var r1= document.getElementById("result");
     	var p =document.createElement("p");
   	p.classList.add("none");
