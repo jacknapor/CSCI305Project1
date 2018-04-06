@@ -22,7 +22,7 @@ h3{
 h4{
 	color:#E87722;
 	margin-top: 10px;
-	font-size: 25px;
+	font-size: 30px;
 }
 
 
@@ -293,4 +293,27 @@ li.underlined:nth-child(1){
 	}
 
 
+}
+
+.yello{
+
+	color:#FFA300;
+}
+
+.orng{
+
+	color:#E87722;
+}
+
+.mb-0{
+
+	margin-bottom: 0px;
+}
+
+.listStyle p{
+	color:#FFA300;
+}
+.outline{
+	text-shadow: 3px 3px 3px black;
+	font-size: 50px;
 }
